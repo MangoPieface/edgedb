@@ -118,6 +118,9 @@ cdef class Database:
             self.db_config = db_config
         self._invalidate_caches()
 
+        if 'webassembly' in self.extensions:
+            self._index._server._ensure_wasm(self.name)
+
     cdef _update_backend_ids(self, new_types):
         self.backend_ids.update(new_types)
 
@@ -641,7 +644,7 @@ cdef class DatabaseIndex:
         reflection_cache,
         backend_ids,
         refresh=False
-    ):
+    ) -> Database:
         cdef Database db
         db = self._dbs.get(dbname)
         if db is not None:
@@ -660,6 +663,9 @@ cdef class DatabaseIndex:
                 backend_ids=backend_ids,
             )
             self._dbs[dbname] = db
+
+        if 'webassembly' in db.extensions:
+            self._server._ensure_wasm(dbname)
 
     def unregister_db(self, dbname):
         self._dbs.pop(dbname)

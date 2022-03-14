@@ -403,20 +403,20 @@ async def init_cluster(
 
     if backend_dsn:
         cluster = edgedb_cluster.TempClusterWithRemotePg(
-            backend_dsn, testmode=True, log_level='s',
+            backend_dsn, testmode=True, log_level='info',
             data_dir_prefix='edb-test-',
             security=security,
             http_endpoint_security=http_endpoint_security)
         destroy = True
     elif data_dir is None:
         cluster = edgedb_cluster.TempCluster(
-            testmode=True, log_level='s', data_dir_prefix='edb-test-',
+            testmode=True, log_level='info', data_dir_prefix='edb-test-',
             security=security,
             http_endpoint_security=http_endpoint_security)
         destroy = True
     else:
         cluster = edgedb_cluster.Cluster(
-            data_dir=data_dir, log_level='s',
+            data_dir=data_dir, log_level='info',
             security=security,
             http_endpoint_security=http_endpoint_security)
         destroy = False
@@ -427,6 +427,11 @@ async def init_cluster(
     await cluster.start(port=0)
     await cluster.set_test_config()
     await cluster.set_superuser_password('test')
+
+    os.mkdir(cluster.get_data_dir() / "wasm")
+    cargo_dir = pathlib.Path(os.getcwd()) / "build" / "rust" / "wasm-test"
+    os.symlink(cargo_dir / "wasm32-wasi" / "release",
+               cluster.get_data_dir() / "wasm" / "webassemblytestcase")
 
     if cleanup_atexit:
         atexit.register(_shutdown_cluster, cluster, destroy=destroy)
