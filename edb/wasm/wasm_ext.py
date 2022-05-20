@@ -69,7 +69,11 @@ async def rpc_request(  # type: ignore  # match statement
     writer = asyncio.StreamWriter(transport, protocol, reader, loop)
     writer.write(req_data)
     writer.write_eof()
-    resp_data = pickle.loads(await reader.read())
+    print("BEFORE READING")
+    raw_data = await reader.read()
+    print("AFTER READING")
+    resp_data = pickle.loads(raw_data)
+    print("AFTER DECODING")
     match resp_data["response"]:
         case "success":
             return resp_data
