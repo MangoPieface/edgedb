@@ -101,6 +101,7 @@ async def proxy_request(
         response.content_type = b"text/plain"
         response.body = b"500 Internal Server Error"
     else:
+        log.info("Got response %r", resp_data['status'])
         response.status = http.HTTPStatus(resp_data['status'])
         headers = resp_data['headers']
         response.content_type = headers.pop('content-type', None)
