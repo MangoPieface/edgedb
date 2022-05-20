@@ -85,7 +85,7 @@ class WasmServer:
             env={
                 "EDGEDB_HOST": "127.0.0.1",
                 "EDGEDB_PORT": str(server.get_listen_port()),
-                "RUST_LOG": "RUST_LOG=debug,regalloc=warn,\
+                "RUST_LOG": "debug,regalloc=warn,\
                              cranelift_codegen=warn,wasmtime_cranelift=info",
             },
             stdin=sock,
