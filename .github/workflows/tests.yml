@@ -481,6 +481,7 @@ jobs:
     - name: Set environment variables
       run: |
         echo EDGEDBCLI_GIT_REV=$(cat .tmp/edgedbcli_git_rev.txt) >> $GITHUB_ENV
+        echo EDGEDBWASM_GIT_REV=$(cat .tmp/edgedbwasm_git_rev.txt) >> $GITHUB_ENV
         echo POSTGRES_GIT_REV=$(cat .tmp/postgres_git_rev.txt) >> $GITHUB_ENV
         echo STOLON_GIT_REV=$(cat .tmp/stolon_git_rev.txt) >> $GITHUB_ENV
         echo BUILD_LIB=$(python setup.py -q ci_helper --type build_lib) >> $GITHUB_ENV
