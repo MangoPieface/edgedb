@@ -99,7 +99,7 @@ jobs:
       id: wasm-cache
       with:
         path: build/wasm
-        key: edb-wasm-v3-${{ env.EDGEDBWASM_GIT_REV }}
+        key: edb-wasm-v4-${{ env.EDGEDBWASM_GIT_REV }}
 
     - name: Handle cached Rust extensions
       uses: actions/cache@v2
@@ -196,9 +196,9 @@ jobs:
       if: steps.wasm-cache.outputs.cache-hit != 'true'
       with:
         path: ${{ env.BUILD_TEMP }}/rust/wasm
-        key: edb-wasm-build-v2-${{ env.EDGEDBWASM_GIT_REV }}
+        key: edb-wasm-build-v3-${{ env.EDGEDBWASM_GIT_REV }}
         restore-keys: |
-          edb-wasm-build-v2-
+          edb-wasm-build-v3-
 
     - name: Build EdgeDB WASM
       env:
@@ -501,7 +501,7 @@ jobs:
       id: wasm-cache
       with:
         path: build/wasm
-        key: edb-wasm-v3-${{ env.EDGEDBWASM_GIT_REV }}
+        key: edb-wasm-v4-${{ env.EDGEDBWASM_GIT_REV }}
 
     - name: Restore cached EdgeDB WASM-test binaries
       uses: actions/cache@v2
