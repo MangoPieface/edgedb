@@ -438,14 +438,14 @@ jobs:
     needs: build
     runs-on: ubuntu-latest
     timeout-minutes: 20
-    strategy:
-      matrix:
-        shard: [
-             1/16,  2/16,  3/16,  4/16,
-             5/16,  6/16,  7/16,  8/16,
-             9/16, 10/16, 11/16, 12/16,
-            13/16, 14/16, 15/16, 16/16,
-        ]
+      # strategy:
+      #   matrix:
+      #     shard: [
+      #          1/16,  2/16,  3/16,  4/16,
+      #          5/16,  6/16,  7/16,  8/16,
+      #          9/16, 10/16, 11/16, 12/16,
+      #         13/16, 14/16, 15/16, 16/16,
+      #     ]
 
     steps:
     - uses: actions/checkout@v2
@@ -587,7 +587,8 @@ jobs:
       run: |
         mkdir -p .results/
         cp .tmp/time_stats.csv .results/shard_${SHARD/\//_}.csv
-        edb test -j2 -v -s ${SHARD} --running-times-log=.results/shard_${SHARD/\//_}.csv
+        #edb test -j2 -v -s ${SHARD} --running-times-log=.results/shard_${SHARD/\//_}.csv
+        edb test -j2 -v -k wasm --running-times-log=.results/shard_${SHARD/\//_}.csv
 
     - name: Upload test results
       uses: actions/upload-artifact@v2
