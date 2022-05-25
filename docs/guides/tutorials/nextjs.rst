@@ -325,6 +325,13 @@ the built-in ``fetch`` API. At the top of the ``HomePage`` component in
 
 .. code-block:: tsx-diff
 
+     import type {NextPage} from 'next';
+     import Head from 'next/head';
++    import { useEffect, useState } from 'react';    
+     import styles from '../styles/Home.module.css';
+
+.. code-block:: tsx-diff
+
      // pages/index.tsx
 
      const Home: NextPage = () => {
